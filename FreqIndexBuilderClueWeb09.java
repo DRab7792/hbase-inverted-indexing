@@ -49,7 +49,7 @@ public class FreqIndexBuilderClueWeb09 {
 				
 				//Extract the data
 				String key = entry.getKey();
-				Ineteger value = entry.getValue();
+				Integer value = entry.getValue();
 
 				//Form the put for HBase
 				Put data = new Put(Bytes.toBytes(key));
