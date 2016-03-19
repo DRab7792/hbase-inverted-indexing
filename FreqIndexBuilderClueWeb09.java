@@ -41,6 +41,24 @@ public class FreqIndexBuilderClueWeb09 {
             // row key: term, column family: "frequencies", qualifier: document Id, cell value: term frequency in the corresponding document
             // Check iu.pti.hbaseapp.Constants for useful constant values.
 			
+			//Get the term frequencies
+			HashMap<String, Integer> freqs = getTermFreqs(content);
+
+			//Iterate through the hashmap
+			for (Map.Entry<String, Integer> entry : freqs.entrySet()){
+				
+				//Extract the data
+				String key = entry.getKey();
+				Ineteger value = entry.getValue();
+
+				//Form the put for HBase
+				Put data = new Put(Bytes.toBytes(key));
+				data.add(Constants.CF_FREQUENCIES_BYTES, docIdBytes, Bytes.toBytes(value));
+
+				//Write to context
+				context.write(new ImmutableBytesWritable(), data);
+			}
+
 		}
 	}
 	
