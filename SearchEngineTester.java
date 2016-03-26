@@ -102,7 +102,7 @@ public class SearchEngineTester {
 			byte[] freqBytes = kv.getValue();
 
 			pageDocId = Bytes.toString(docIdBytes);
-			freq = freqBytes.intValue();
+			freq = ByteBuffer.wrap(freqBytes).getInt();
 
 
             // Step 2: get the URI of the page from clueWeb09DataTable
@@ -119,9 +119,9 @@ public class SearchEngineTester {
 			Result pgRow = prTable.get(uriId);
 
 			//Iterate through the row list and set the page rank value
-			for (KeyValue kv : pgRow.list()){
-				byte[] pgBytes = kv.getQualifier();
-				pageRank = pgBytes.getFloat();
+			for (KeyValue kvRow : pgRow.list()){
+				byte[] pgBytes = kvRow.getQualifier();
+				pageRank = ByteBuffer.wrap(pgBytes).getFloat();
 			}
 
 		    // END of your code
