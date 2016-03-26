@@ -98,11 +98,32 @@ public class SearchEngineTester {
 
 			// Write your codes for the main part of implementation here
             // Step 1: get the document ID of one page, as well as the keyword's frequency in that page
-			
+			byte[] docIdBytes = kv.getQualifier();
+			byte[] freqBytes = kv.getValue();
+
+			pageDocId = Bytes.toString(docIdBytes);
+			freq = freqBytes.intValue();
+
+
             // Step 2: get the URI of the page from clueWeb09DataTable
+            //Use the data table to get the URI
+            Get uriId = new Get(pageDocIdBytes);
+            Result row = dataTable.get(uriId);
+
+            //Get the value from within the row
+            byte[] cell = row.getValue(Constants.CF_DETAILS_BYTES, Constants.QUAL_URI_BYTES);
+            pageUri = Bytes.toString(cell);
 			
             // Step 3: get the page rank value of this page from clueWeb09PageRankTable
-		
+            //Use the get from step 2 to query the page rank table
+			Result pgRow = prTable.get(uriId);
+
+			//Iterate through the row list and set the page rank value
+			for (KeyValue kv : pgRow.list()){
+				byte[] pgBytes = kv.getQualifier();
+				pageRank = pgBytes.getFloat();
+			}
+
 		    // END of your code
 
             // Use the heap to select the top 20 pages according to page rank
