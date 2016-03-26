@@ -2,6 +2,7 @@ package iu.pti.hbaseapp.clueweb09;
 
 import java.util.PriorityQueue;
 import java.util.Stack;
+import java.nio.ByteBuffer;
 
 import iu.pti.hbaseapp.Constants;
 
@@ -107,7 +108,7 @@ public class SearchEngineTester {
 
             // Step 2: get the URI of the page from clueWeb09DataTable
             //Use the data table to get the URI
-            Get uriId = new Get(pageDocIdBytes);
+            Get uriId = new Get(docIdBytes);
             Result row = dataTable.get(uriId);
 
             //Get the value from within the row
